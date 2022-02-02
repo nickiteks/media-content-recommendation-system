@@ -6,5 +6,10 @@
 </head>
 <body>
     <h3>index</h3>
+     <form action="{% url 'recommend' %}" method="POST">
+            {% csrf_token %}
+            <p><textarea name="content_name" cols="40" rows="3"></textarea></p>
+            <button class="btn btn-warning">Получить рекомндацию</button>
+     </form>
 </body>
 </html>
