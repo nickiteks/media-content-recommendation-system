@@ -11,5 +11,8 @@
             <p><textarea name="content_name" cols="40" rows="1"></textarea></p>
             <button class="btn btn-warning">Получить рекомндацию</button>
      </form>
+    {% for recommendation in recommendations %}
+        <h6><strong>{{recommendation}}</strong></h6>
+    {% endfor %}
 </body>
 </html>
