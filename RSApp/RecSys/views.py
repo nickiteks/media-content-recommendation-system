@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .recommendsManager import Manager
+from .recommendsManager import Manager, Recommendation
 
 
 # Create your views here.
@@ -12,6 +12,18 @@ def recommend_film(request):
     film_name = request.POST['content_name']
     manager = Manager()
 
-    context = {'recommendations': manager.get_recommendations(film_name)}
+    recommendations, posters = manager.get_recommendations(film_name)
+
+    recommendations_list = []
+    posters_list = []
+
+    for i in recommendations:
+        recommendations_list.append(i)
+
+    result = []
+    for i in range(len(recommendations_list)):
+        result.append(Recommendation(recommendations_list[i], posters[i]))
+
+    context = {'recommendations': result}
 
     return render(request, 'RecSys/index.html', context)

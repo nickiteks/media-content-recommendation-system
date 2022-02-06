@@ -12,7 +12,8 @@
             <button class="btn btn-warning">Получить рекомндацию</button>
      </form>
     {% for recommendation in recommendations %}
-        <h6><strong>{{recommendation}}</strong></h6>
+        <h6><strong>{{recommendation.title}}</strong></h6>
+         <img src={{recommendation.poster_path}} alt="альтернативный текст">
     {% endfor %}
 </body>
 </html>
