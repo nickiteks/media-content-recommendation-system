@@ -10,7 +10,7 @@ class Manager:
     def __init__(self):
         # Данные фильмов
         self.metadata = pd.read_csv(
-            'C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system\\RSApp\\RecSys\\tmdb_5000_movies.csv',
+            'C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system\\RSApp\\static\\data\\tmdb_5000_movies.csv',
             low_memory=False)
 
         tfidf = TfidfVectorizer(stop_words='english')
@@ -34,7 +34,6 @@ class Manager:
             movie_id)
         data = requests.get(url)
         data = data.json()
-        print(f'{data} \n')
         try:
             poster_path = data['poster_path']
         except:
