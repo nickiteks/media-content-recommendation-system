@@ -29,7 +29,7 @@ class Manager:
     def load_file(self, filename):
         return joblib.load(filename)
 
-    def fetch_poster(self, movie_id):
+    def fetch_poster_film(self, movie_id):
         url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(
             movie_id)
         data = requests.get(url)
@@ -43,7 +43,7 @@ class Manager:
         return full_path
 
     # Возвраем список рекомендаций и постеры
-    def get_recommendations(self, title):
+    def get_recommendations_film(self, title):
         idx = self.indices[title]
 
         sim_scores = list(enumerate(self.cosine_sim[idx]))
@@ -57,7 +57,7 @@ class Manager:
         recommended_movie_posters = []
         print(f'indexes{movie_indices}\n')
         for i in movie_indices:
-            recommended_movie_posters.append(self.fetch_poster(self.metadata['id'][i]))
+            recommended_movie_posters.append(self.fetch_poster_film(self.metadata['id'][i]))
 
         return self.metadata['title'].iloc[movie_indices], recommended_movie_posters
 

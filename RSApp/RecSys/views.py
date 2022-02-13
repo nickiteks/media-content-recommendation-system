@@ -12,7 +12,7 @@ def recommend_film(request):
     film_name = request.POST['content_name']
     manager = Manager()
 
-    recommendations, posters = manager.get_recommendations(film_name)
+    recommendations, posters = manager.get_recommendations_film(film_name)
 
     recommendations_list = []
     posters_list = []
