@@ -10,7 +10,11 @@ def index(request):
 
 def recommend_film(request):
     film_name = request.POST['content_name']
-    manager = Manager()
+    manager = Manager('C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system\\RSApp\\static\\data'
+                      '\\tmdb_5000_movies.csv')
+
+    # manager = Manager('C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system\\RSApp\\static\\data'
+    #                   '\\series_dataset.csv')
 
     recommendations, posters = manager.get_recommendations_film(film_name)
 
