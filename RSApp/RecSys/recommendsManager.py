@@ -7,7 +7,7 @@ import requests
 
 class Manager:
 
-    def __init__(self,data):
+    def prepare_movie_series_recommendation(self,data):
         # Данные фильмов
         self.metadata = pd.read_csv(
             data,
@@ -89,6 +89,9 @@ class Manager:
             recommended_movie_posters.append(self.fetch_poster_series(self.metadata['id'][i]))
 
         return self.metadata['title'].iloc[movie_indices], recommended_movie_posters
+
+    def get_recomendation_game(self,title):
+        pass
 
 class Recommendation:
     def __init__(self, title, path):
