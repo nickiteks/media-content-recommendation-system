@@ -132,4 +132,4 @@ dmypy.json
 .idea
 
 #config
-config.py
+RSApp/RecSys/config.py
