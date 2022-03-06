@@ -34,8 +34,8 @@ def recommend_series(request):
 def recommend_film(request):
     film_name = request.POST['content_name_film']
     manager = Manager()
-    manager.prepare_movie_series_recommendation('/Users/nikita/PycharmProjects/media-content-recommendation-system'
-                                                '/RSApp/static/data/tmdb_5000_movies.csv')
+    manager.prepare_movie_series_recommendation('C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system'
+                                                '\\RSApp\\static\\data\\tmdb_5000_movies.csv')
 
     recommendations, posters = manager.get_recommendations_film(film_name)
 
@@ -53,5 +53,21 @@ def recommend_film(request):
 
     return render(request, 'RecSys/index.html', context)
 
+
 def recommend_game(request):
     pass
+
+
+def film_page(request):
+    context = {}
+    return render(request, 'RecSys/film.html', context)
+
+
+def series_page(request):
+    context = {}
+    return render(request, 'RecSys/series.html', context)
+
+
+def game_page(request):
+    context = {}
+    return render(request, 'RecSys/game.html', context)

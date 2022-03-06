@@ -4,20 +4,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Recommend</title>
 </head>
 <body>
-    <h3>index</h3>
-     <form action="{% url 'recommend_film' %}" method="POST">
-            {% csrf_token %}
-            <p><textarea name="content_name_film" cols="40" rows="1"></textarea></p>
-            <button class="btn btn-warning">Получить рекомндацию фильм</button>
-     </form>
-    <form action="{% url 'recommend_series' %}" method="POST">
-            {% csrf_token %}
-            <p><textarea name="content_name_series" cols="40" rows="1"></textarea></p>
-            <button class="btn btn-warning">Получить рекомндацию сериал</button>
-    </form>
+    {% block content %}
+
+    {% endblock content %}
     {% for recommendation in recommendations %}
         <h6><strong>{{recommendation.title}}</strong></h6>
          <img src={{recommendation.poster_path}} alt="альтернативный текст">

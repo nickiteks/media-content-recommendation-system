@@ -1,0 +1,10 @@
+{% extends 'RecSys/index.html' %}
+{% load static %}
+{% block content%}
+<h3>film</h3>
+<form action="{% url 'recommend_film' %}" method="POST">
+    {% csrf_token %}
+    <p><textarea name="content_name_film" cols="40" rows="1"></textarea></p>
+    <button class="btn btn-warning">Получить рекомндацию фильм</button>
+</form>
+{% endblock content%}
