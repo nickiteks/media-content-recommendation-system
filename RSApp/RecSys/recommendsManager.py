@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import requests
-
+from .config import API_KEY
 
 class Manager:
 
@@ -30,8 +30,7 @@ class Manager:
         return joblib.load(filename)
 
     def fetch_poster_film(self, movie_id):
-        url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(
-            movie_id)
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}&language=en-US"
         data = requests.get(url)
         data = data.json()
         try:
@@ -61,8 +60,7 @@ class Manager:
         return self.metadata['title'].iloc[movie_indices], recommended_movie_posters
 
     def fetch_poster_series(self, series_id):
-        url = "https://api.themoviedb.org/3/tv/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(
-            series_id)
+        url = f"https://api.themoviedb.org/3/tv/{series_id}?api_key={API_KEY}&language=en-US"
         data = requests.get(url)
         data = data.json()
         try:

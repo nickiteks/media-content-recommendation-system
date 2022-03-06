@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .recommendsManager import Manager, Recommendation
-
+from . import config
 
 # Create your views here.
 def index(request):
@@ -11,8 +11,7 @@ def index(request):
 def recommend_series(request):
     series_name = request.POST['content_name_series']
     manager = Manager()
-    manager.prepare_movie_series_recommendation('/Users/nikita/PycharmProjects/media-content-recommendation-system'
-                                                '/RSApp/static/data/series_dataset.csv')
+    manager.prepare_movie_series_recommendation(config.FILE_SERIES)
 
     recommendations, posters = manager.get_recommendations_series(series_name)
 
@@ -34,8 +33,7 @@ def recommend_series(request):
 def recommend_film(request):
     film_name = request.POST['content_name_film']
     manager = Manager()
-    manager.prepare_movie_series_recommendation('C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system'
-                                                '\\RSApp\\static\\data\\tmdb_5000_movies.csv')
+    manager.prepare_movie_series_recommendation(config.FILE_FILM)
 
     recommendations, posters = manager.get_recommendations_film(film_name)
 
