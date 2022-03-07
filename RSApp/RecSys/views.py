@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .recommendsManager import Manager, Recommendation
 from . import config
 
+
 # Create your views here.
 def index(request):
     context = {}
@@ -51,9 +52,26 @@ def recommend_film(request):
 
     return render(request, 'RecSys/index.html', context)
 
-
 def recommend_game(request):
-    pass
+    film_name = request.POST['content_name_game']
+    manager = Manager()
+    manager.prepare_game_recomendation('C:\\Users\\NULS\\PycharmProjects\\media-content-recommendation-system\\RSApp\\static\\data\\games.csv')
+
+    recommendations, posters = manager.get_recomendation_game(film_name)
+
+    recommendations_list = []
+    posters_list = []
+
+    for i in recommendations:
+        recommendations_list.append(i)
+
+    result = []
+    for i in range(len(recommendations_list)):
+        result.append(Recommendation(recommendations_list[i], posters[i]))
+
+    context = {'recommendations': result}
+
+    return render(request, 'RecSys/index.html', context)
 
 
 def film_page(request):
