@@ -8,5 +8,7 @@ urlpatterns = [
     path('recommend_game/', views.recommend_game, name='recommend_game'),
     path('film_page/', views.film_page, name='film_page'),
     path('game_page/', views.game_page, name='game_page'),
-    path('series_page/', views.series_page, name='series_page')
+    path('series_page/', views.series_page, name='series_page'),
+    path('register/', views.registerPage, name='register'),
+    path('login/', views.loginPage, name='login')
 ]
