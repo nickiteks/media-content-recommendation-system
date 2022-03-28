@@ -11,5 +11,7 @@ urlpatterns = [
     path('series_page/', views.series_page, name='series_page'),
     path('register/', views.registerPage, name='register'),
     path('login/', views.loginPage, name='login'),
-    path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film')
+    path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film'),
+    path('<str:title>/add_media_game/', views.add_media_game, name='add_media_game'),
+    path('<str:title>/add_media_series/', views.add_media_series, name='add_media_series')
 ]

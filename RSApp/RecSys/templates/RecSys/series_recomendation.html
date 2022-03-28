@@ -1,10 +1,19 @@
 <!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Recommend</title>
 </head>
 <body>
+    {% block content %}
 
+    {% endblock content %}
+    {% for recommendation in recommendations %}
+        <h6><strong>{{recommendation.title}}</strong></h6>
+        <img src={{recommendation.poster_path}} alt="альтернативный текст">
+        <a class="btn btn-outline-success" href="{% url 'add_media_series' recommendation.title %}">add to media</a>
+    {% endfor %}
 </body>
 </html>

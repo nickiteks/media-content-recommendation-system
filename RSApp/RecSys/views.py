@@ -31,7 +31,7 @@ def recommend_series(request):
 
     context = {'recommendations': result}
 
-    return render(request, 'RecSys/index.html', context)
+    return render(request, 'RecSys/series_recomendation.html', context)
 
 
 def recommend_film(request):
@@ -75,7 +75,7 @@ def recommend_game(request):
 
     context = {'recommendations': result}
 
-    return render(request, 'RecSys/index.html', context)
+    return render(request, 'RecSys/game_recomendation.html', context)
 
 
 def film_page(request):
@@ -145,6 +145,24 @@ def add_media_film(request, title):
     if request.user.is_authenticated:
         customer = request.user.customer
         media_adding(title, 'film', customer)
+
+    context = {}
+    return render(request, 'RecSys/index.html', context)
+
+
+def add_media_series(request, title):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media_adding(title, 'series', customer)
+
+    context = {}
+    return render(request, 'RecSys/index.html', context)
+
+
+def add_media_game(request, title):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media_adding(title, 'game', customer)
 
     context = {}
     return render(request, 'RecSys/index.html', context)
