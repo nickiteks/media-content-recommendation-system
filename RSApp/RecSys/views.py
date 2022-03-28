@@ -53,7 +53,7 @@ def recommend_film(request):
 
     context = {'recommendations': result}
 
-    return render(request, 'RecSys/index.html', context)
+    return render(request, 'RecSys/film_recomendation.html', context)
 
 
 def recommend_game(request):
@@ -139,3 +139,17 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+
+def add_media_film(request, title):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media_adding(title, 'film', customer)
+
+    context = {}
+    return render(request, 'RecSys/index.html', context)
+
+
+def media_adding(title, category, customer):
+    media = mediaContent.objects.create(title=title, category=category, customer=customer)
+    media.save()

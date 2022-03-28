@@ -10,5 +10,6 @@ urlpatterns = [
     path('game_page/', views.game_page, name='game_page'),
     path('series_page/', views.series_page, name='series_page'),
     path('register/', views.registerPage, name='register'),
-    path('login/', views.loginPage, name='login')
+    path('login/', views.loginPage, name='login'),
+    path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film')
 ]
