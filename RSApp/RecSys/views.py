@@ -171,3 +171,12 @@ def add_media_game(request, title):
 def media_adding(title, category, customer):
     media = mediaContent.objects.create(title=title, category=category, customer=customer)
     media.save()
+
+
+def media_page(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer)
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)

@@ -13,5 +13,6 @@ urlpatterns = [
     path('login/', views.loginPage, name='login'),
     path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film'),
     path('<str:title>/add_media_game/', views.add_media_game, name='add_media_game'),
-    path('<str:title>/add_media_series/', views.add_media_series, name='add_media_series')
+    path('<str:title>/add_media_series/', views.add_media_series, name='add_media_series'),
+    path('media_page', views.media_page, name='media_page')
 ]
