@@ -13,6 +13,7 @@
     {% for media in medias %}
         <h6><strong>{{media.title}}</strong></h6>
         <h6><strong>{{media.category}}</strong></h6>
+        <a class="btn btn-outline-success" href="{% url 'delete_from_media' media.id %}">delete</a>
     {% endfor %}
 </body>
 </html>

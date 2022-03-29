@@ -180,3 +180,13 @@ def media_page(request):
 
         context = {"medias": media}
         return render(request, 'RecSys/media.html', context)
+
+
+def delete_from_media(request, media_id):
+    if request.user.is_authenticated:
+        try:
+            media = mediaContent.objects.get(id=media_id)
+        except:
+            media = None
+        media.delete()
+        return redirect('media_page')

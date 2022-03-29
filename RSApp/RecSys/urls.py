@@ -14,5 +14,6 @@ urlpatterns = [
     path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film'),
     path('<str:title>/add_media_game/', views.add_media_game, name='add_media_game'),
     path('<str:title>/add_media_series/', views.add_media_series, name='add_media_series'),
-    path('media_page', views.media_page, name='media_page')
+    path('media_page', views.media_page, name='media_page'),
+    path('<int:media_id>/delete_from_media/', views.delete_from_media,name='delete_from_media')
 ]
