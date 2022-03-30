@@ -27,7 +27,10 @@ def load_file(filename):
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'upload File': '/api/upload'
+        'upload File': '/api/upload',
+        'files list': '/api/file_list',
+        'get_recommendation':'api/recom/<id>/<title>',
+        'csv parameters': 'csv MUST HAVE fields overview and name'
     }
     return Response(api_urls)
 
@@ -53,21 +56,24 @@ def uploadFile(request):
             uploadedFile=uploadedFile
         )
         document.save()
+        try:
+            metadata = pd.read_csv(document.uploadedFile, low_memory=False)
 
-        metadata = pd.read_csv(document.uploadedFile, low_memory=False)
+            tfidf = TfidfVectorizer(stop_words='english')
 
-        tfidf = TfidfVectorizer(stop_words='english')
+            metadata['overview'] = metadata['overview'].fillna('')
 
-        metadata['overview'] = metadata['overview'].fillna('')
+            tfidf_matrix = tfidf.fit_transform(metadata['overview'])
 
-        tfidf_matrix = tfidf.fit_transform(metadata['overview'])
+            cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-        cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-
-        save_file(cosine_sim, f'static/models/{document.id}.pkl')
+            save_file(cosine_sim, f'static/models/{document.id}.pkl')
+        except:
+            pass
 
         result = {
             'file id': document.id,
+            'title': document.title,
             'file saved successes': True
         }
 
@@ -81,22 +87,25 @@ def upload_page(request):
 
 @api_view(['GET'])
 def get_recommendation(request, id, title):
-    file = File.objects.get(id=id)
+    try:
+        file = File.objects.get(id=id)
 
-    metadata = pd.read_csv(file.uploadedFile.path, low_memory=False)
+        metadata = pd.read_csv(file.uploadedFile.path, low_memory=False)
 
-    indices = metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
+        indices = metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
 
-    idx = indices[title]
+        idx = indices[title]
 
-    sim_scores = list(enumerate(load_file(f'static/models/{id}.pkl')[idx]))
+        sim_scores = list(enumerate(load_file(f'static/models/{id}.pkl')[idx]))
 
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    sim_scores = sim_scores[1:11]
+        sim_scores = sim_scores[1:11]
 
-    movie_indices = [i[0] for i in sim_scores]
+        movie_indices = [i[0] for i in sim_scores]
 
-    recommendation = metadata['title'].iloc[movie_indices]
+        recommendation = metadata['title'].iloc[movie_indices]
+    except:
+        recommendation = {'error':'bad file'}
 
     return Response(recommendation)
