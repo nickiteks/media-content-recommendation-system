@@ -22,6 +22,7 @@ class Manager:
         tfidf_matrix = tfidf.fit_transform(self.metadata['overview'])
 
         self.cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+        self.save_file(self.cosine_sim, 'file.pkl')
 
         self.indices = self.metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
 
