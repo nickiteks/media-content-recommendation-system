@@ -20,7 +20,7 @@ def save_file(model, filename):
     joblib.dump(model, filename)
 
 
-def load_file(self, filename):
+def load_file(filename):
     return joblib.load(filename)
 
 
@@ -77,3 +77,26 @@ def uploadFile(request):
 def upload_page(request):
     context = {}
     return render(request, 'api/upload.html', context)
+
+
+@api_view(['GET'])
+def get_recommendation(request, id, title):
+    file = File.objects.get(id=id)
+
+    metadata = pd.read_csv(file.uploadedFile.path, low_memory=False)
+
+    indices = metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
+
+    idx = indices[title]
+
+    sim_scores = list(enumerate(load_file(f'static/models/{id}.pkl')[idx]))
+
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+    sim_scores = sim_scores[1:11]
+
+    movie_indices = [i[0] for i in sim_scores]
+
+    recommendation = metadata['title'].iloc[movie_indices]
+
+    return Response(recommendation)
