@@ -10,6 +10,11 @@
     {% block content %}
 
     {% endblock content %}
+    <form action="{% url 'search_media' %}" method="POST">
+        {% csrf_token %}
+        <input name="search_media" type="text" placeholder="Search...">
+        <button class="btn btn-warning">Search</button>
+    </form>
     {% for media in medias %}
         <h6><strong>{{media.title}}</strong></h6>
         <h6><strong>{{media.category}}</strong></h6>

@@ -190,3 +190,14 @@ def delete_from_media(request, media_id):
             media = None
         media.delete()
         return redirect('media_page')
+
+
+def search_media(request):
+    if request.user.is_authenticated:
+        search = request.POST['search_media']
+        customer = request.user.customer
+
+        media = mediaContent.objects.filter(title__icontains=search,customer=customer)
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)

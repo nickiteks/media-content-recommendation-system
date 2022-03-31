@@ -29,7 +29,7 @@ def apiOverview(request):
     api_urls = {
         'upload File': '/api/upload',
         'files list': '/api/file_list',
-        'get_recommendation':'api/recom/<id>/<title>',
+        'get_recommendation': 'api/recom/<id>/<title>',
         'csv parameters': 'csv MUST HAVE fields overview and name'
     }
     return Response(api_urls)
@@ -106,6 +106,6 @@ def get_recommendation(request, id, title):
 
         recommendation = metadata['title'].iloc[movie_indices]
     except:
-        recommendation = {'error':'bad file'}
+        recommendation = {'error': 'bad file'}
 
     return Response(recommendation)

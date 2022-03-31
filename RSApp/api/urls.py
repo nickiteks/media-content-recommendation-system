@@ -10,8 +10,5 @@ urlpatterns = [
     path('upload_file/', views.uploadFile, name='upload_file'),
     path('recom/<int:id>/<str:title>', views.get_recommendation, name='recom')
 ]
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
-    )
+
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
