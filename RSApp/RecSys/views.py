@@ -197,7 +197,34 @@ def search_media(request):
         search = request.POST['search_media']
         customer = request.user.customer
 
-        media = mediaContent.objects.filter(title__icontains=search,customer=customer)
+        media = mediaContent.objects.filter(title__icontains=search, customer=customer)
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_films(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='film')
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_series(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='series')
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_games(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='game')
 
         context = {"medias": media}
         return render(request, 'RecSys/media.html', context)

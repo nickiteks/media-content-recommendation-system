@@ -15,6 +15,12 @@
         <input name="search_media" type="text" placeholder="Search...">
         <button class="btn btn-warning">Search</button>
     </form>
+    <select onchange="window.location=this.options[this.selectedIndex].value">
+        <option value="">Go to page...</option>
+        <option value="{% url 'media_films' %}">films</option>
+        <option value="{% url 'media_games' %}">games</option>
+        <option value="{% url 'media_series' %}">series</option>
+    </select>
     {% for media in medias %}
         <h6><strong>{{media.title}}</strong></h6>
         <h6><strong>{{media.category}}</strong></h6>
