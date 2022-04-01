@@ -109,3 +109,13 @@ def get_recommendation(request, id, title):
         recommendation = {'error': 'bad file'}
 
     return Response(recommendation)
+
+
+@api_view(['GET'])
+def get_details(request, id):
+
+    file = File.objects.get(id=id)
+
+    metadata = open(file.uploadedFile.path,'r')
+
+    return Response(metadata)
