@@ -28,6 +28,7 @@ def load_file(filename):
 def apiOverview(request):
     api_urls = {
         'upload File': '/api/upload',
+        'details':'api/detail/<id>',
         'files list': '/api/file_list',
         'get_recommendation': 'api/recom/<id>/<title>',
         'csv parameters': 'csv MUST HAVE fields overview and name'
