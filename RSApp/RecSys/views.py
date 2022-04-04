@@ -14,10 +14,16 @@ def index(request):
 
 def recommend_series(request):
     series_name = request.POST['content_name_series']
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='series')
+
     manager = Manager()
     manager.prepare_movie_series_recommendation(config.FILE_SERIES)
 
-    recommendations, posters = manager.get_recommendations_series(series_name)
+    recommendations, posters = manager.get_recommendations_series(series_name,media)
 
     recommendations_list = []
     posters_list = []
@@ -36,10 +42,16 @@ def recommend_series(request):
 
 def recommend_film(request):
     film_name = request.POST['content_name_film']
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='film')
+
     manager = Manager()
     manager.prepare_movie_series_recommendation(config.FILE_FILM)
 
-    recommendations, posters = manager.get_recommendations_film(film_name)
+    recommendations, posters = manager.get_recommendations_film(film_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -58,10 +70,17 @@ def recommend_film(request):
 
 def recommend_game(request):
     film_name = request.POST['content_name_game']
+
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='game')
+
     manager = Manager()
     manager.prepare_game_recomendation(config.FILE_GAME)
 
-    recommendations, posters = manager.get_recomendation_game(film_name)
+    recommendations, posters = manager.get_recomendation_game(film_name,media)
 
     recommendations_list = []
     posters_list = []
