@@ -1,3 +1,4 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from .recommendsManager import Manager, Recommendation
 from . import config
@@ -5,6 +6,8 @@ from .forms import CreateUserForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .config import FILE_FILM
+from django.urls import reverse
 
 
 def index(request):
@@ -23,7 +26,7 @@ def recommend_series(request):
     manager = Manager()
     manager.prepare_movie_series_recommendation(config.FILE_SERIES)
 
-    recommendations, posters = manager.get_recommendations_series(series_name,media)
+    recommendations, posters = manager.get_recommendations_series(series_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -80,7 +83,7 @@ def recommend_game(request):
     manager = Manager()
     manager.prepare_game_recomendation(config.FILE_GAME)
 
-    recommendations, posters = manager.get_recomendation_game(film_name,media)
+    recommendations, posters = manager.get_recomendation_game(film_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -98,7 +101,9 @@ def recommend_game(request):
 
 
 def film_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_FILM, low_memory=False)
+    films = metadata['title']
+    context = {'Films': films}
     return render(request, 'RecSys/film.html', context)
 
 
