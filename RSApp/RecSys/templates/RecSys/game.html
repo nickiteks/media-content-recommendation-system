@@ -4,7 +4,11 @@
 <h3>game</h3>
 <form action="{% url 'recommend_game' %}" method="POST">
     {% csrf_token %}
-    <p><textarea name="content_name_game" cols="40" rows="1"></textarea></p>
+    <select class="js-example-basic-multiple" name="content_name_game">
+        {% for game in Games %}
+        <option>{{game}}</option>
+        {% endfor %}
+    </select>
     <button class="btn btn-warning">Получить рекомндацию игра</button>
 </form>
 {% endblock content%}

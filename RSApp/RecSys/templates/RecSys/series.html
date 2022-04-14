@@ -4,7 +4,11 @@
 <h3>series</h3>
 <form action="{% url 'recommend_series' %}" method="POST">
     {% csrf_token %}
-    <p><textarea name="content_name_series" cols="40" rows="1"></textarea></p>
+    <select class="js-example-basic-multiple" name="content_name_series">
+        {% for serie in Series %}
+        <option>{{serie}}</option>
+        {% endfor %}
+    </select>
     <button class="btn btn-warning">Получить рекомндацию сериал</button>
 </form>
 {% endblock content%}

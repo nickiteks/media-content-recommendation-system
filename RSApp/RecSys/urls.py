@@ -11,9 +11,14 @@ urlpatterns = [
     path('series_page/', views.series_page, name='series_page'),
     path('register/', views.registerPage, name='register'),
     path('login/', views.loginPage, name='login'),
+    path('logout/', views.logoutUser, name='logout'),
     path('<str:title>/add_media_film/', views.add_media_film, name='add_media_film'),
     path('<str:title>/add_media_game/', views.add_media_game, name='add_media_game'),
     path('<str:title>/add_media_series/', views.add_media_series, name='add_media_series'),
     path('media_page/', views.media_page, name='media_page'),
-    path('<int:media_id>/delete_from_media/', views.delete_from_media,name='delete_from_media')
+    path('<int:media_id>/delete_from_media/', views.delete_from_media, name='delete_from_media'),
+    path('search_media/', views.search_media, name='search_media'),
+    path('media_films/', views.get_media_films, name='media_films'),
+    path('media_games/', views.get_media_games, name='media_games'),
+    path('media_series/', views.get_media_series, name='media_series')
 ]

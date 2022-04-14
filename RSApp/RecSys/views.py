@@ -1,3 +1,4 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from .recommendsManager import Manager, Recommendation
 from . import config
@@ -5,6 +6,8 @@ from .forms import CreateUserForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .config import FILE_FILM, FILE_GAME, FILE_SERIES
+from django.urls import reverse
 
 
 def index(request):
@@ -14,10 +17,16 @@ def index(request):
 
 def recommend_series(request):
     series_name = request.POST['content_name_series']
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='series')
+
     manager = Manager()
     manager.prepare_movie_series_recommendation(config.FILE_SERIES)
 
-    recommendations, posters = manager.get_recommendations_series(series_name)
+    recommendations, posters = manager.get_recommendations_series(series_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -36,10 +45,16 @@ def recommend_series(request):
 
 def recommend_film(request):
     film_name = request.POST['content_name_film']
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='film')
+
     manager = Manager()
     manager.prepare_movie_series_recommendation(config.FILE_FILM)
 
-    recommendations, posters = manager.get_recommendations_film(film_name)
+    recommendations, posters = manager.get_recommendations_film(film_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -58,10 +73,17 @@ def recommend_film(request):
 
 def recommend_game(request):
     film_name = request.POST['content_name_game']
+
+    media = []
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='game')
+
     manager = Manager()
     manager.prepare_game_recomendation(config.FILE_GAME)
 
-    recommendations, posters = manager.get_recomendation_game(film_name)
+    recommendations, posters = manager.get_recomendation_game(film_name, media)
 
     recommendations_list = []
     posters_list = []
@@ -79,17 +101,23 @@ def recommend_game(request):
 
 
 def film_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_FILM, low_memory=False)
+    films = metadata['title']
+    context = {'Films': films}
     return render(request, 'RecSys/film.html', context)
 
 
 def series_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_SERIES, low_memory=False)
+    series = metadata['title']
+    context = {"Series": series}
     return render(request, 'RecSys/series.html', context)
 
 
 def game_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_GAME, low_memory=False)
+    games = metadata['Name']
+    context = {'Games': games}
     return render(request, 'RecSys/game.html', context)
 
 
@@ -190,3 +218,41 @@ def delete_from_media(request, media_id):
             media = None
         media.delete()
         return redirect('media_page')
+
+
+def search_media(request):
+    if request.user.is_authenticated:
+        search = request.POST['search_media']
+        customer = request.user.customer
+
+        media = mediaContent.objects.filter(title__icontains=search, customer=customer)
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_films(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='film')
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_series(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='series')
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
+
+
+def get_media_games(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        media = mediaContent.objects.filter(customer=customer, category='game')
+
+        context = {"medias": media}
+        return render(request, 'RecSys/media.html', context)
