@@ -6,7 +6,7 @@ from .forms import CreateUserForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .config import FILE_FILM
+from .config import FILE_FILM, FILE_GAME, FILE_SERIES
 from django.urls import reverse
 
 
@@ -108,12 +108,16 @@ def film_page(request):
 
 
 def series_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_SERIES, low_memory=False)
+    series = metadata['title']
+    context = {"Series": series}
     return render(request, 'RecSys/series.html', context)
 
 
 def game_page(request):
-    context = {}
+    metadata = pd.read_csv(FILE_GAME, low_memory=False)
+    games = metadata['Name']
+    context = {'Games': games}
     return render(request, 'RecSys/game.html', context)
 
 

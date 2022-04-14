@@ -4,12 +4,11 @@
 <h3>film</h3>
 <form action="{% url 'recommend_film' %}" method="POST">
     {% csrf_token %}
-    <p><textarea name="content_name_film" cols="40" rows="1"></textarea></p>
-    <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
-  <option value="AL">Alabama</option>
-    ...
-  <option value="WY">Wyoming</option>
-</select>
+    <select class="js-example-basic-multiple" name="content_name_film">
+        {% for film in Films %}
+        <option>{{film}}</option>
+        {% endfor %}
+    </select>
     <button class="btn btn-warning">Получить рекомндацию фильм</button>
 </form>
 {% endblock content%}
