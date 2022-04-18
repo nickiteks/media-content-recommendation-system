@@ -1,4 +1,5 @@
 import pandas as pd
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .recommendsManager import Manager, Recommendation
 from . import config
@@ -7,7 +8,6 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .config import FILE_FILM, FILE_GAME, FILE_SERIES
-from django.urls import reverse
 
 
 def index(request):
@@ -170,34 +170,40 @@ def logoutUser(request):
 
 
 def add_media_film(request, title):
+    media = None
     if request.user.is_authenticated:
         customer = request.user.customer
         media_adding(title, 'film', customer)
+        media = mediaContent.objects.filter(customer=customer)
 
-    context = {}
-    return render(request, 'RecSys/index.html', context)
+    context = {"medias": media}
+    return render(request, 'RecSys/media.html', context)
 
 
 def add_media_series(request, title):
+    media = None
     if request.user.is_authenticated:
         customer = request.user.customer
         media_adding(title, 'series', customer)
+        media = mediaContent.objects.filter(customer=customer)
 
-    context = {}
-    return render(request, 'RecSys/index.html', context)
+    context = {"medias": media}
+    return render(request, 'RecSys/media.html', context)
 
 
 def add_media_game(request, title):
+    media = None
     if request.user.is_authenticated:
         customer = request.user.customer
         media_adding(title, 'game', customer)
+        media = mediaContent.objects.filter(customer=customer)
 
-    context = {}
-    return render(request, 'RecSys/index.html', context)
+    context = {"medias": media}
+    return render(request, 'RecSys/media.html', context)
 
 
 def media_adding(title, category, customer):
-    media = mediaContent.objects.create(title=title, category=category, customer=customer)
+    media, created = mediaContent.objects.get_or_create(title=title, category=category, customer=customer)
     media.save()
 
 
