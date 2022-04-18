@@ -1,14 +1,17 @@
 {% extends 'RecSys/index.html' %}
 {% load static %}
 {% block content%}
-<h3>series</h3>
-<form action="{% url 'recommend_series' %}" method="POST">
-    {% csrf_token %}
-    <select class="js-example-basic-multiple" name="content_name_series">
-        {% for serie in Series %}
-        <option>{{serie}}</option>
-        {% endfor %}
-    </select>
-    <button class="btn btn-warning">Получить рекомндацию сериал</button>
-</form>
+<link rel="stylesheet" type="text/css" href="{% static 'css/film.css' %}">
+<div class ='center'>
+    <h3 class="text">Введите название сериала</h3>
+    <form action="{% url 'recommend_series' %}" method="POST">
+        {% csrf_token %}
+        <select class="js-example-basic-multiple" style="width:650px;"  name="content_name_series">
+            {% for serie in Series %}
+            <option>{{serie}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-primary">Получить рекомндацию сериал</button>
+    </form>
+</div>
 {% endblock content%}

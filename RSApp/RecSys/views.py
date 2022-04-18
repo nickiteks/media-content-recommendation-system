@@ -12,7 +12,7 @@ from django.urls import reverse
 
 def index(request):
     context = {}
-    return render(request, 'RecSys/index.html', context)
+    return render(request, 'RecSys/main.html', context)
 
 
 def recommend_series(request):

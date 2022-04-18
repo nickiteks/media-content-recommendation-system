@@ -39,13 +39,15 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'game_page' %}">Игры</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'media_page' %}">Медиатека</a>
         </li>
+        {% endif %}
       </ul>
         <li class = 'd-flex'>
             {% if user.is_authenticated %}
-            <a style="margin-top: 5px" class="navbar-brand" href="">Привет {{user.username}}</a>
+            <a style="margin-top: 5px" class="navbar-brand" href="">Привет, {{user.username}}</a>
             <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
              {% else %}
                 <a href="{% url 'login' %}" class="btn btn-warning nav-item">Login</a>

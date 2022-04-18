@@ -1,19 +1,14 @@
-<!DOCTYPE html>
+{% extends 'RecSys/index.html' %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Recommend</title>
-</head>
-<body>
-    {% block content %}
-
-    {% endblock content %}
+{% block content%}
     {% for recommendation in recommendations %}
-        <h6><strong>{{recommendation.title}}</strong></h6>
-        <img src={{recommendation.poster_path}} alt="альтернативный текст">
-        <a class="btn btn-outline-success" href="{% url 'add_media_game' recommendation.title %}">add to media</a>
+    <div class="card mb-3">
+        <h3 class="card-header">{{recommendation.title}}</h3>
+            <img style="height: 500px;" src={{recommendation.poster_path}} alt="альтернативный текст">
+        </svg>
+        <div class="card-body">
+            <a class="btn btn-success" href="{% url 'add_media_game' recommendation.title %}">Добавить в медиатеку</a>
+        </div>
+    </div>
     {% endfor %}
-</body>
-</html>
+{% endblock content%}

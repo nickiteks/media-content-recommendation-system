@@ -1,14 +1,17 @@
 {% extends 'RecSys/index.html' %}
 {% load static %}
 {% block content%}
-<h3>game</h3>
-<form action="{% url 'recommend_game' %}" method="POST">
-    {% csrf_token %}
-    <select class="js-example-basic-multiple" name="content_name_game">
-        {% for game in Games %}
-        <option>{{game}}</option>
-        {% endfor %}
-    </select>
-    <button class="btn btn-warning">Получить рекомндацию игра</button>
-</form>
+<link rel="stylesheet" type="text/css" href="{% static 'css/film.css' %}">
+<div class ='center'>
+    <h3 class="text">Введите название игры</h3>
+    <form action="{% url 'recommend_game' %}" method="POST">
+        {% csrf_token %}
+        <select class="js-example-basic-multiple" style="width:650px;" name="content_name_game">
+            {% for game in Games %}
+            <option>{{game}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-primary">Получить рекомндацию игры</button>
+    </form>
+</div>
 {% endblock content%}
