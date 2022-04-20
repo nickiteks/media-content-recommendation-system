@@ -309,7 +309,7 @@ def upload_user_file(request):
 
             cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-            save_file(cosine_sim, f'static/models/{document.id}.pkl')
+            save_file(cosine_sim, f'static/modelsUser/{document.id}.pkl')
         except:
             pass
 
