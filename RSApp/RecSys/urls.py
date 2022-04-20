@@ -20,5 +20,7 @@ urlpatterns = [
     path('search_media/', views.search_media, name='search_media'),
     path('media_films/', views.get_media_films, name='media_films'),
     path('media_games/', views.get_media_games, name='media_games'),
-    path('media_series/', views.get_media_series, name='media_series')
+    path('media_series/', views.get_media_series, name='media_series'),
+    path('user_data/', views.user_data_page, name='user_data'),
+    path('upload_user_file/', views.upload_user_file, name='upload_user_file')
 ]

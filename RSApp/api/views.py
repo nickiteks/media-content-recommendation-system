@@ -1,9 +1,7 @@
 import joblib
 import pandas as pd
-from django.http import JsonResponse
 from django.shortcuts import render
 
-# Create your views here.
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -11,7 +9,6 @@ from . import models
 from .models import File
 from .serializers import FileSerializer
 
-from django.core.files.storage import FileSystemStorage
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
@@ -28,7 +25,7 @@ def load_file(filename):
 def apiOverview(request):
     api_urls = {
         'upload File': '/api/upload',
-        'details':'api/detail/<id>',
+        'details': 'api/detail/<id>',
         'files list': '/api/file_list',
         'get_recommendation': 'api/recom/<id>/<title>',
         'csv parameters': 'csv MUST HAVE fields overview and name'
@@ -114,9 +111,8 @@ def get_recommendation(request, id, title):
 
 @api_view(['GET'])
 def get_details(request, id):
-
     file = File.objects.get(id=id)
 
-    metadata = open(file.uploadedFile.path,'r')
+    metadata = open(file.uploadedFile.path, 'r')
 
     return Response(metadata)

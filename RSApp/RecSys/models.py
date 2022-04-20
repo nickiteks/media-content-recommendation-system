@@ -15,3 +15,9 @@ class mediaContent(models.Model):
     title = models.CharField(max_length=250, null=True)
     category = models.CharField(max_length=30, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+
+
+class userData(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.CharField(max_length=250, null=True)
+    uploadedFile = models.FileField(upload_to="Uploaded User Files/")

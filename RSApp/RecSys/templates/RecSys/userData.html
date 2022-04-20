@@ -1,0 +1,14 @@
+{% extends 'RecSys/index.html' %}
+{% load static %}
+{% block content%}
+<h3>data</h3>
+<form action="{% url 'upload_user_file' %}" method="POST" enctype="multipart/form-data">
+        <input type="text" name="fileTitle" placeholder="Enter a title">
+        <input type="file" name="uploadedFile">
+        {% csrf_token %}
+        <input type="submit" value="Upload">
+    </form>
+{% for data in userData%}
+<h3>{{data.title}}</h3>
+{% endfor %}
+{% endblock content%}

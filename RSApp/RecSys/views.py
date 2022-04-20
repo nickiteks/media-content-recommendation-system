@@ -1,6 +1,9 @@
+import joblib
 import pandas as pd
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+
 from .recommendsManager import Manager, Recommendation
 from . import config
 from .forms import CreateUserForm
@@ -262,3 +265,52 @@ def get_media_games(request):
 
         context = {"medias": media}
         return render(request, 'RecSys/media.html', context)
+
+
+def user_data_page(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        user_data = userData.objects.filter(customer=customer)
+
+        context = {"userData": user_data}
+        return render(request, 'RecSys/userData.html', context)
+
+
+def save_file(model, filename):
+    joblib.dump(model, filename)
+
+
+def load_file(filename):
+    return joblib.load(filename)
+
+
+def upload_user_file(request):
+    global result
+    if request.method == "POST":
+        # Fetching the form data
+        fileTitle = request.POST["fileTitle"]
+        uploadedFile = request.FILES["uploadedFile"]
+        customer = request.user.customer
+        # Saving the information in the database
+        document = userData(
+            title=fileTitle,
+            uploadedFile=uploadedFile,
+            customer=customer
+        )
+        document.save()
+        try:
+            metadata = pd.read_csv(document.uploadedFile, low_memory=False)
+
+            tfidf = TfidfVectorizer(stop_words='english')
+
+            metadata['overview'] = metadata['overview'].fillna('')
+
+            tfidf_matrix = tfidf.fit_transform(metadata['overview'])
+
+            cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+            save_file(cosine_sim, f'static/models/{document.id}.pkl')
+        except:
+            pass
+
+    return redirect('user_data')
