@@ -1,0 +1,9 @@
+{% extends 'RecSys/index.html' %}
+{% load static %}
+{% block content%}
+    {% for recommendation in recommendations %}
+    <div class="card mb-3" style="margin-top:10px;margin-bottom:10px;">
+        <h3 class="card-header">{{recommendation.title}}</h3>
+    </div>
+    {% endfor %}
+{% endblock content%}

@@ -22,5 +22,8 @@ urlpatterns = [
     path('media_games/', views.get_media_games, name='media_games'),
     path('media_series/', views.get_media_series, name='media_series'),
     path('user_data/', views.user_data_page, name='user_data'),
-    path('upload_user_file/', views.upload_user_file, name='upload_user_file')
+    path('upload_user_file/', views.upload_user_file, name='upload_user_file'),
+    path('user_data_recom_page/<int:id>', views.user_data_recom_page, name='user_data_recom_page'),
+    path('recommend_user_data/<int:id>', views.recommend_user_data, name='recommend_user_data'),
+    path('delete_user_file/<int:id>', views.delete_user_file, name='delete_user_file'),
 ]
