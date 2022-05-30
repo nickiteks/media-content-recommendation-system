@@ -1,3 +1,5 @@
+import codecs
+
 import joblib
 import pandas as pd
 from django.shortcuts import render
@@ -113,6 +115,6 @@ def get_recommendation(request, id, title):
 def get_details(request, id):
     file = File.objects.get(id=id)
 
-    metadata = open(file.uploadedFile.path, 'r')
+    metadata = codecs.open(file.uploadedFile.path, "r", "utf_8_sig")
 
     return Response(metadata)
