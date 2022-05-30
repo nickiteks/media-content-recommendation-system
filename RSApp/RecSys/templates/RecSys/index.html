@@ -51,10 +51,10 @@
         <li class = 'd-flex'>
             {% if user.is_authenticated %}
             <a style="margin-top: 5px" class="navbar-brand" href="">Привет, {{user.username}}</a>
-            <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+            <a href="{% url 'logout' %}" class="btn btn-warning">Выход</a>
              {% else %}
-                <a href="{% url 'login' %}" class="btn btn-warning nav-item">Login</a>
-                <a href="{% url 'register' %}" style="margin-left: 10px" class="btn btn-warning nav-item">Register</a>
+                <a href="{% url 'login' %}" class="btn btn-warning nav-item">Войти</a>
+                <a href="{% url 'register' %}" style="margin-left: 10px" class="btn btn-warning nav-item">Регистрация</a>
             {% endif %}
         </li>
     </div>
