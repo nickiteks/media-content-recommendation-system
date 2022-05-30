@@ -6,9 +6,11 @@
             <h3 class="card-header">{{recommendation.title}}</h3>
                 <img style="height: 800px; width:800px; margin-left:100px; " src={{recommendation.poster_path}} alt="альтернативный текст">
             </svg>
+            {% if user.is_authenticated %}
             <div class="card-body">
                 <a class="btn btn-success" href="{% url 'add_media_series' recommendation.title %}">Добавить в медиатеку</a>
             </div>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock content%}

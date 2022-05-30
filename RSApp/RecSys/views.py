@@ -288,39 +288,40 @@ def load_file(filename):
 
 
 def upload_user_file(request):
-    try:
-        if request.method == "POST":
+    if request.user.is_authenticated:
+        try:
+            if request.method == "POST":
 
-            document = userData(
-                title=request.POST["fileTitle"],
-                uploadedFile=request.FILES["uploadedFile"],
-                customer=request.user.customer
-            )
-            document.save()
+                document = userData(
+                    title=request.POST["fileTitle"],
+                    uploadedFile=request.FILES["uploadedFile"],
+                    customer=request.user.customer
+                )
+                document.save()
 
-            try:
-                metadata = pd.read_csv(document.uploadedFile, low_memory=False)
+                try:
+                    metadata = pd.read_csv(document.uploadedFile, low_memory=False)
 
-                tfidf = TfidfVectorizer(stop_words='english')
+                    tfidf = TfidfVectorizer(stop_words='english')
 
-                metadata['overview'] = metadata['overview'].fillna('')
+                    metadata['overview'] = metadata['overview'].fillna('')
 
-                tfidf_matrix = tfidf.fit_transform(metadata['overview'])
+                    tfidf_matrix = tfidf.fit_transform(metadata['overview'])
 
-                cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+                    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-                save_file(cosine_sim, f'static/modelsUser/{document.id}.pkl')
+                    save_file(cosine_sim, f'static/modelsUser/{document.id}.pkl')
 
-                metadata.close()
-                f = open(request.FILES["uploadedFile"], 'wb+')
-                f.close()
+                    metadata.close()
+                    f = open(request.FILES["uploadedFile"], 'wb+')
+                    f.close()
 
-            except:
-                pass
-    except:
-        pass
+                except:
+                    pass
+        except:
+            pass
 
-    return redirect('user_data')
+        return redirect('user_data')
 
 
 def user_data_recom_page(request, id):
@@ -332,36 +333,38 @@ def user_data_recom_page(request, id):
 
 
 def recommend_user_data(request, id):
-    try:
-        title = request.POST['content_name_user_data']
+    if request.user.is_authenticated:
+        try:
+            title = request.POST['content_name_user_data']
 
-        file = userData.objects.get(id=id)
+            file = userData.objects.get(id=id)
 
-        metadata = pd.read_csv(file.uploadedFile.path, low_memory=False)
+            metadata = pd.read_csv(file.uploadedFile.path, low_memory=False)
 
-        indices = metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
+            indices = metadata['title'].drop_duplicates().reset_index().set_index('title')['index']
 
-        idx = indices[title]
+            idx = indices[title]
 
-        sim_scores = list(enumerate(load_file(f'static/modelsUser/{id}.pkl')[idx]))
+            sim_scores = list(enumerate(load_file(f'static/modelsUser/{id}.pkl')[idx]))
 
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+            sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-        sim_scores = sim_scores[1:11]
+            sim_scores = sim_scores[1:11]
 
-        movie_indices = [i[0] for i in sim_scores]
+            movie_indices = [i[0] for i in sim_scores]
 
-        recommendation = metadata['title'].iloc[movie_indices]
-    except:
-        recommendation = []
+            recommendation = metadata['title'].iloc[movie_indices]
+        except:
+            recommendation = []
 
-    context = {'recommendations': recommendation}
-    return render(request, 'RecSys/userData_recomendation.html', context)
+        context = {'recommendations': recommendation}
+        return render(request, 'RecSys/userData_recomendation.html', context)
 
 
 def delete_user_file(request, id):
-    data = userData.objects.get(id=id)
-    os.remove(f'static/modelsUser/{id}.pkl')
-    data.delete()
+    if request.user.is_authenticated:
+        data = userData.objects.get(id=id)
+        os.remove(f'static/modelsUser/{id}.pkl')
+        data.delete()
 
     return redirect('user_data')

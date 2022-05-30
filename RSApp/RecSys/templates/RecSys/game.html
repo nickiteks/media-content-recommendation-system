@@ -6,7 +6,11 @@
     <h3 class="text">Введите название игры</h3>
     <form action="{% url 'recommend_game' %}" method="POST">
         {% csrf_token %}
-        <input id="select" name="content_name_game">
+        <select class="js-example-basic-multiple" style="width:650px;" name="content_name_game">
+            {% for game in Games %}
+            <option>{{game}}</option>
+            {% endfor %}
+        </select>
         <button id = 'game' class="btn btn-primary">Получить рекомндацию игры</button>
     </form>
 </div>
