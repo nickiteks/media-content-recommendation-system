@@ -1,5 +1,29 @@
 {% extends 'RecSys/index.html' %}
 {% load static %}
 {% block content%}
-<h3>Описание</h3>
+<link rel="stylesheet" type="text/css" href="{% static '/css/main_page.css' %}">
+<div class="block">
+    <h2 style="margin-left:12%">Ваш путводитель в мир медиаконтента</h2>
+    <div class="line_block">
+        <div style="height: 300px; width:250px;"  class="card mb-3">
+                    <h3 class="card-header">Кино</h3>
+                        <img style="height: 220px; width:200px; margin-left:10%; " src="{% static 'images/p1.jpg' %}"alt="альтернативный текст">
+                    </svg>
+                </div>
+    </div>
+    <div class="line_block">
+        <div style="height: 300px; width:250px;"  class="card mb-3">
+                    <h3 class="card-header">Сериалы</h3>
+                        <img style="height: 220px; width:200px; margin-left:10%; " src="{% static 'images/p2.jpeg' %}"alt="альтернативный текст">
+                    </svg>
+                </div>
+    </div>
+    <div class="line_block">
+        <div style="height: 300px; width:250px;"  class="card mb-3">
+                    <h3 class="card-header">Игры</h3>
+                        <img style="height: 220px; width:200px; margin-left:10%; " src="{% static 'images/640px-DevilMayCry5.jpeg' %}"alt="альтернативный текст">
+                    </svg>
+                </div>
+    </div>
+</div>
 {% endblock content%}
