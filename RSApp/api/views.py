@@ -30,7 +30,7 @@ def apiOverview(request):
         'details': 'api/detail/<id>',
         'files list': '/api/file_list',
         'get_recommendation': 'api/recom/<id>/<title>',
-        'csv parameters': 'csv MUST HAVE fields overview and name'
+        'csv parameters': 'csv MUST HAVE fields overview and title'
     }
     return Response(api_urls)
 
