@@ -1,16 +1,19 @@
 {% extends 'RecSys/index.html' %}
 {% load static %}
 {% block content%}
+<link rel="stylesheet" type="text/css" href="{% static '/css/main_page.css' %}">
+<div class="block">
     {% for recommendation in recommendations %}
-        <div style="height: 950px; width:1000px;"  class="card mb-3">
-            <h3 class="card-header">{{recommendation.title}}</h3>
-                <img style="height: 800px; width:800px; margin-left:100px; " src={{recommendation.poster_path}} alt="альтернативный текст">
-            </svg>
-            {% if user.is_authenticated %}
-            <div class="card-body">
-                <a class="btn btn-success" href="{% url 'add_media_film' recommendation.title %}">Добавить в медиатеку</a>
-            </div>
-            {% endif %}
+    <div style="height: 25%; width:30%; margin: 15px 15px 15px 15px;" class="card mb-3">
+        <h3 class="card-header">{{recommendation.title}}</h3>
+        <img src={{recommendation.poster_path}} alt="альтернативный текст">
+        </svg>
+        {% if user.is_authenticated %}
+        <div class="card-body">
+            <a class="btn btn-success" href="{% url 'add_media_film' recommendation.title %}">Добавить в медиатеку</a>
         </div>
+        {% endif %}
+    </div>
     {% endfor %}
+</div>
 {% endblock content%}

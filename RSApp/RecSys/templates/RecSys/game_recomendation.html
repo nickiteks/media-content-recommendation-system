@@ -1,10 +1,12 @@
 {% extends 'RecSys/index.html' %}
 {% load static %}
 {% block content%}
+<link rel="stylesheet" type="text/css" href="{% static '/css/main_page.css' %}">
+<div class="block">
     {% for recommendation in recommendations %}
-    <div class="card mb-3">
+    <div style="height: 25%; width:30%; margin: 15px 15px 15px 15px;" class="card mb-3">
         <h3 class="card-header">{{recommendation.title}}</h3>
-            <img style="height: 500px;" src={{recommendation.poster_path}} alt="альтернативный текст">
+            <img src={{recommendation.poster_path}} alt="альтернативный текст">
         </svg>
         {% if user.is_authenticated %}
         <div class="card-body">
@@ -13,4 +15,5 @@
         {% endif %}
     </div>
     {% endfor %}
+    </div>
 {% endblock content%}
