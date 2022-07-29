@@ -21,3 +21,8 @@ class userData(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=250, null=True)
     uploadedFile = models.FileField(upload_to="Uploaded User Files/")
+
+
+class token(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    generated_token = models.CharField(max_length=250, null=True)

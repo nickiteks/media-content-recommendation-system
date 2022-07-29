@@ -1,4 +1,5 @@
 import os
+import secrets
 import shutil
 
 import joblib
@@ -146,6 +147,12 @@ def registerPage(request):
                 name=user
             )
             customer.save()
+
+            access_token = token.objects.create(
+                customer=customer,
+                generated_token=secrets.token_hex()
+            )
+            access_token.save()
 
             return redirect('login')
 

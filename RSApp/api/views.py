@@ -3,16 +3,15 @@ import codecs
 import joblib
 import pandas as pd
 from django.shortcuts import render
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 from . import models
 from .models import File
 from .serializers import FileSerializer
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
+from RecSys.models import token
 
 
 def save_file(model, filename):
@@ -26,7 +25,7 @@ def load_file(filename):
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'upload File': '/api/upload',
+        'upload File': '/api/upload/<token>',
         'details': 'api/detail/<id>',
         'files list': '/api/file_list',
         'get_recommendation': 'api/recom/<id>/<title>',
@@ -80,9 +79,18 @@ def uploadFile(request):
     return Response(result)
 
 
-def upload_page(request):
-    context = {}
-    return render(request, 'api/upload.html', context)
+@api_view(['GET'])
+def upload_page(request, token_url):
+    access_token = token.objects.filter(generated_token=token_url)
+    print(access_token)
+    if access_token.first() != None:
+        context = {}
+        return render(request, 'api/upload.html', context)
+    else:
+        api_str = {
+            'Error': 'bad token'
+        }
+        return Response(api_str)
 
 
 @api_view(['GET'])
