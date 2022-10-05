@@ -130,6 +130,3 @@ dmypy.json
 
 #idea
 .idea
-
-#config
-RSApp/RecSys/config.py
